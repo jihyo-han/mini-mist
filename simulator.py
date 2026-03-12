@@ -61,22 +61,6 @@ def generate_poisson_requests(n, rps, seed=42):
 
 
 
-def generate_poisson_requests_timed(duration_sec, rps, seed=42):
-    """
-    시간 T초 동안 Poisson 도착 프로세스로 요청 생성.
-    """
-    rng = random.Random(seed)
-    t = 0.0
-    reqs = []
-    while t < duration_sec:
-        t += rng.expovariate(rps)
-        if t >= duration_sec:
-            break
-        input_len  = rng.randint(128, 1024)
-        output_len = rng.randint(64, 256)
-        reqs.append((t, input_len, output_len))
-    return reqs
-
 
 def generate_poisson_requests_timed(duration_sec, rps, seed=42):
     """
