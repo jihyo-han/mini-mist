@@ -23,9 +23,11 @@ cost_single  = [r["cost_per_token"]*1e6  for r in results["single"]]
 cost_disagg  = [r["cost_per_token"]*1e6  for r in results["disaggregated"]]
 qwait_single = [r["mean_queue_wait_sec"] for r in results["single"]]
 qwait_disagg = [r["mean_queue_wait_sec"] for r in results["disaggregated"]]
+energy_single = [r["joule_per_token"] for r in results["single"]]
+energy_disagg = [r["joule_per_token"] for r in results["disaggregated"]]
 
 # ── 플롯 ──────────────────────────────────────────────────────────────
-fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+fig, axes = plt.subplots(1, 4, figsize=(20, 5))
 fig.suptitle("mini-MIST: Heterogeneous GPU Disaggregation\n"
              "A100 (Prefill) + L4 (Decode)  vs  A100-only Baseline",
              fontsize=13, fontweight='bold', y=1.02)
@@ -71,6 +73,16 @@ ax.set_title("Queuing Delay vs Request Rate", fontsize=11)
 ax.legend(fontsize=9)
 ax.grid(True, alpha=0.3)
 ax.set_yscale('log')
+
+# subplot 4: Energy
+ax = axes[3]
+ax.plot(rps_list, energy_single, 'o-', color=C_S, label='Single (A100)',    lw=2)
+ax.plot(rps_list, energy_disagg, 'o-', color=C_D, label='Disagg (A100+L4)', lw=2)
+ax.set_xlabel("Request Rate (req/s)", fontsize=11)
+ax.set_ylabel("Energy per Token (J)", fontsize=11)
+ax.set_title("Energy Efficiency vs Request Rate", fontsize=11)
+ax.legend(fontsize=9)
+ax.grid(True, alpha=0.3)
 
 plt.tight_layout()
 plt.savefig("results.png", dpi=150, bbox_inches='tight')
