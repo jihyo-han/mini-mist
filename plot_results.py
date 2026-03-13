@@ -3,14 +3,14 @@ import matplotlib.pyplot as plt
 import random
 from runtime_model import get_latency_sec
 from device_config import DEVICES
-from simulator import generate_poisson_requests, simulate_online
+from simulator import generate_poisson_requests_timed, simulate_online
 
 # ── 데이터 수집 ────────────────────────────────────────────────────────
 rps_list = [0.5, 1, 2, 3, 5, 7, 10, 15, 20]
 
 results = {"single": [], "disaggregated": []}
 for rps in rps_list:
-    timed = generate_poisson_requests(n=200, rps=rps, seed=42)
+    timed = generate_poisson_requests_timed(duration_sec=300, rps=rps, seed=42)
     for mode in ["single", "disaggregated"]:
         r = simulate_online(mode, timed)
         results[mode].append(r)
