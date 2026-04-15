@@ -237,7 +237,7 @@ if __name__ == "__main__":
     print(f"{'bandwidth':>12}  {'rps':>4}  {'ttft_viol':>10}  {'mean_kv_xfer':>14}")
     print("=" * 75)
 
-    for bw in [16.0, 32.0, 64.0, 0.0]:
+    for bw in [8.0, 16.0, 32.0, 64.0, 0.0]:
         label = f"{bw:.0f} GB/s" if bw > 0 else "∞ (no xfer)"
         for rps in [1, 5, 10, 20]:
             timed = generate_poisson_requests_timed(

@@ -46,9 +46,9 @@ plt.rcParams.update({
 # ── 실험 파라미터 ──────────────────────────────────────────────────────
 T        = 300
 RPS_LIST = [1, 2, 5, 10, 15, 20, 30, 50]
-BW_LIST  = [16.0, 32.0, 64.0]
-BW_LABELS = ['16 GB/s (worst case)', '32 GB/s (PCIe 4.0)', '64 GB/s (best case)']
-BW_COLORS = ['#E74C3C', '#F39C12', '#27AE60']
+BW_LIST = [8.0, 16.0, 32.0, 64.0]
+BW_LABELS = ['8 GB/s (ethernet)', '16 GB/s (worst case)', '32 GB/s (PCIe 4.0)', '64 GB/s (best case)']
+BW_COLORS = ['#E74C3C', '#F39C12', '#27AE60', '#2980B9']
 LIN_LIST  = [128, 512, 1024]
 LOUT_FIXED = 128
 
@@ -126,14 +126,14 @@ ax.axhline(y=100,  color='gray',  lw=1.0, ls=':',  label='100 ms reference')
 ax.set_xlabel('Input Length (tokens)')
 ax.set_ylabel('KV Transfer Latency (ms)')
 ax.set_xlim(64, 1024)
-ax.set_ylim(0, 28)
+ax.set_ylim(0, 50)
 ax.legend(fontsize=9)
 
 # 주석: 최악 조건
-worst_ms = (1024 * KV_BYTES_PER_TOKEN) / (16e9) * 1000
+worst_ms = (1024 * KV_BYTES_PER_TOKEN) / (8e9) * 1000
 ax.annotate(
-    f'Worst case: Lin=1024, 16 GB/s\n→ {worst_ms:.1f} ms = {worst_ms/2000*100:.1f}% of SLO',
-    xy=(1024, worst_ms), xytext=(720, 22),
+    f'Worst case: Lin=1024, 8 GB/s\n→ {worst_ms:.1f} ms = {worst_ms/2000*100:.1f}% of SLO',
+    xy=(1024, worst_ms), xytext=(680, 24),
     arrowprops=dict(arrowstyle='->', color='#E74C3C'),
     fontsize=9, color='#E74C3C',
     bbox=dict(boxstyle='round,pad=0.3', fc='white', ec='#E74C3C', alpha=0.9)
